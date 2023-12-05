@@ -13,7 +13,7 @@ import { Permission } from '@/types/permissions-data';
 import { Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
-export function PermissionTableOption({ permission }: any) {
+export function PermissionTableOption({ permission }: { permission: Permission }) {
     const [openAlertDialog, setOpenAlertDialog] = useState(false);
     const { delete: destroy, processing } = useForm();
     function deletePermission(permission: Permission) {

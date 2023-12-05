@@ -69,7 +69,7 @@ export default function Login({ status, canResetPassword }: { status?: string; c
                         <Checkbox
                             name='remember'
                             checked={data.remember}
-                            onCheckedChange={(e: any) => setData('remember', e)}
+                            onCheckedChange={(e: boolean) => setData('remember', e)}
                         />
                         <span className='ml-2 text-sm text-muted-foreground'>Remember me</span>
                     </label>

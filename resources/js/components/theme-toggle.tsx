@@ -9,7 +9,12 @@ import {
 import { cn } from '@/lib/utils';
 import { Icon } from './icons';
 
-const Menu = [
+type MenuType = {
+    label: string;
+    action: 'dark' | 'light' | 'system';
+};
+
+const Menu: MenuType[] = [
     {
         label: 'Light',
         action: 'light',
@@ -43,7 +48,7 @@ export function ThemeToggle({ className }: { className?: string }) {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-                {Menu.map((item: any, i: number) => (
+                {Menu.map((item, i: number) => (
                     <DropdownMenuItem key={i} onClick={() => setTheme(item.action)} className='justify-between'>
                         {item.label}
                         {theme === item.action && <Icon name='IconCheck' className='h-4 w-4 stroke-2' />}

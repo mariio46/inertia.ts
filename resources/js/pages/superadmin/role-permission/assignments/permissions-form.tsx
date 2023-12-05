@@ -73,7 +73,7 @@ export default function PermissionsForm({ role, permission, roles, permissions, 
                                     <CommandInput placeholder='Search user...' name='role' id='role' className='h-9' />
                                     <CommandEmpty>No role found...</CommandEmpty>
                                     <CommandGroup className='simple-scrollbar h-52 overflow-y-auto'>
-                                        {roles.map((role: any, i: number) => (
+                                        {roles.map((role: RoleAssignmentType, i: number) => (
                                             <CommandItem
                                                 value={role.value}
                                                 key={i}

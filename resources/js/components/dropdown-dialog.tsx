@@ -17,7 +17,7 @@ import { buttonVariants } from './ui/button';
 interface Props {
     trigger_text: string;
     title?: string;
-    variants?: any;
+    variants?: 'link' | 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | null | undefined;
     description: string;
     cancel_text?: string;
     submit_text?: string;

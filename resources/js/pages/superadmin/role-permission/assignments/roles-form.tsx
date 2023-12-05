@@ -15,7 +15,7 @@ import RolePermissionLayout from '../role-permission-layout';
 import AssignmentLayout from './assignment-layout';
 
 type UserAssignmentType = {
-    value: string[] | string;
+    value: string;
     label: string;
 };
 
@@ -62,9 +62,7 @@ export default function RolesForm({ user, role, users, roles, page_settings }: R
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant='outline' role='combobox' className='w-full justify-between'>
-                                    {data.user
-                                        ? users.find((user: any) => user.value === data.user)?.label
-                                        : 'Select user'}
+                                    {data.user ? users.find((user) => user.value === data.user)?.label : 'Select user'}
                                     <IconSelector className='ml-2 h-4 w-4 shrink-0 opacity-50' />
                                 </Button>
                             </PopoverTrigger>
@@ -73,7 +71,7 @@ export default function RolesForm({ user, role, users, roles, page_settings }: R
                                     <CommandInput placeholder='Search user...' name='user' id='user' className='h-9' />
                                     <CommandEmpty>No user found...</CommandEmpty>
                                     <CommandGroup className='simple-scrollbar h-52 overflow-y-auto'>
-                                        {users.map((user: any, i: number) => (
+                                        {users.map((user, i: number) => (
                                             <CommandItem
                                                 value={user.value}
                                                 key={i}
