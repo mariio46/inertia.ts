@@ -16,8 +16,13 @@ import SettingLayout from '@/pages/settings/setting-layout';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler, useState } from 'react';
 
+type DeleteAccountDialogType = {
+    openDialog: boolean;
+    setOpenDialog: (openDialog: boolean) => void;
+};
+
 export default function DeleteAccount() {
-    const [openDialog, setOpenDialog] = useState(false);
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
     return (
         <Card className='max-w-2xl'>
@@ -38,13 +43,7 @@ export default function DeleteAccount() {
     );
 }
 
-function DeleteAccountDialog({
-    openDialog,
-    setOpenDialog,
-}: {
-    openDialog: boolean;
-    setOpenDialog: (openDialog: boolean) => void;
-}) {
+function DeleteAccountDialog({ openDialog, setOpenDialog }: DeleteAccountDialogType) {
     const {
         data,
         setData,

@@ -4,19 +4,14 @@ import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AuthLayout from '@/layouts/auth-layout';
+import { DataPermissionAssignments, RolePermissionAssignment } from '@/types/assignments-data';
 import { Link, usePage } from '@inertiajs/react';
 import RolePermissionLayout from '../role-permission-layout';
 import AssignmentLayout from './assignment-layout';
 import { PermissionOption } from './partials/permissions-option';
 
-interface RoleItemType {
-    id: number;
-    name: string;
-    permissions: string | null;
-}
-
 export default function Permissions() {
-    const { data: roles, meta, links } = usePage<any>().props.roles;
+    const { data: roles, meta, links } = usePage<DataPermissionAssignments>().props.roles;
     return (
         <Card>
             <CardHeader>
@@ -44,7 +39,7 @@ export default function Permissions() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {roles.map((role: RoleItemType, i: number) => (
+                        {roles.map((role: RolePermissionAssignment, i: number) => (
                             <TableRow key={role.id}>
                                 <TableCell className='font-medium'>{meta.from + i}</TableCell>
                                 <TableCell>{role.name}</TableCell>

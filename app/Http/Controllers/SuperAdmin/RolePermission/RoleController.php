@@ -52,7 +52,7 @@ class RoleController extends Controller
     public function edit(Role $role): Response
     {
         return inertia('superadmin/role-permission/roles/form', [
-            'role' => $role,
+            'role' => new TableRoleResource($role),
             'page_settings' => [
                 'method' => 'put',
                 'url' => route('roles.update', $role->id),

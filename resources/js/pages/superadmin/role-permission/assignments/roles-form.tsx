@@ -1,26 +1,43 @@
-import AuthLayout from '@/layouts/auth-layout';
-import RolePermissionLayout from '../role-permission-layout';
-import AssignmentLayout from './assignment-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormEventHandler } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
-import { useForm } from '@inertiajs/react';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { IconCheck, IconSelector } from '@tabler/icons-react';
 import InputError from '@/components/input-error';
 import SelectMultiples from '@/components/select-multiples';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
+import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import AuthLayout from '@/layouts/auth-layout';
 import { cn } from '@/lib/utils';
+import { PageSettingsType } from '@/types/page-settings';
+import { useForm } from '@inertiajs/react';
+import { IconCheck, IconSelector } from '@tabler/icons-react';
+import { FormEventHandler } from 'react';
+import RolePermissionLayout from '../role-permission-layout';
+import AssignmentLayout from './assignment-layout';
 
-export default function RolesForm({ user, role, users, roles, page_settings }: any) {
+type UserAssignmentType = {
+    value: string[] | string;
+    label: string;
+};
+
+type RoleAssignmentType = {
+    value: string;
+    label: string;
+};
+
+interface RoleFormType {
+    user: UserAssignmentType;
+    role: RoleAssignmentType;
+    users: UserAssignmentType[];
+    roles: RoleAssignmentType[];
+    page_settings: PageSettingsType;
+}
+
+export default function RolesForm({ user, role, users, roles, page_settings }: RoleFormType) {
     const { data, setData, post, errors, processing, reset } = useForm({
         user: user ? user?.value : '',
         roles: role ? role?.value : [],
         _method: page_settings.method,
     });
-
-    // console.log(data.roles);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -29,6 +46,7 @@ export default function RolesForm({ user, role, users, roles, page_settings }: a
             onSuccess: () => reset(),
         });
     };
+
     return (
         <Card className='max-w-xl'>
             <CardHeader>

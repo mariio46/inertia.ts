@@ -52,7 +52,7 @@ class PermissionController extends Controller
     public function edit(Permission $permission): Response
     {
         return inertia('superadmin/role-permission/permissions/form', [
-            'permission' => $permission,
+            'permission' => new TablePermissionResource($permission),
             'page_settings' => [
                 'method' => 'put',
                 'url' => route('permissions.update', $permission->id),

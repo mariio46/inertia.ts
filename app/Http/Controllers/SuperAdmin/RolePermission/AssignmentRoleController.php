@@ -44,7 +44,7 @@ class AssignmentRoleController extends Controller
         return to_route('assignments.roles.table');
     }
 
-    public function edit(User $user): Response
+    public function edit(User $user)
     {
         return inertia('superadmin/role-permission/assignments/roles-form', [
             'user' => [

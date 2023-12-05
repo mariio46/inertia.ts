@@ -9,14 +9,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Permission } from '@/types/permissions-data';
 import { Link, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 
-export function PermissionTableOption({ permission, setOpenDialog }: any) {
+export function PermissionTableOption({ permission }: any) {
+    const [openAlertDialog, setOpenAlertDialog] = useState(false);
     const { delete: destroy, processing } = useForm();
-    function deletePermission(permission: any) {
+    function deletePermission(permission: Permission) {
         destroy(route('permissions.delete', [permission]), {
             preserveScroll: true,
-            onFinish: () => setOpenDialog(false),
+            onFinish: () => setOpenAlertDialog(false),
         });
     }
     return (
@@ -36,6 +39,8 @@ export function PermissionTableOption({ permission, setOpenDialog }: any) {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownDialog
+                    openAlertDialog={openAlertDialog}
+                    setOpenAlertDialog={setOpenAlertDialog}
                     title='Are you absolutely sure?'
                     trigger_text='Delete'
                     description=' This action cannot be undone. This will permanently delete the permission and remove the data from our

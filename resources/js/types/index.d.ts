@@ -1,5 +1,3 @@
-import * as icons from '@tabler/icons-react';
-
 export interface User {
     id: number;
     name: string;
@@ -21,16 +19,4 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     auth: {
         user: User;
     };
-};
-
-export interface SessionFlash {
-    status?: string;
-    title?: string;
-    message?: string;
-    icon?: keyof typeof icons;
-    className?: string;
-}
-
-export type FlashProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
-    session_flash: SessionFlash;
 };

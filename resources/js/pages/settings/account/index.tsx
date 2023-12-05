@@ -9,14 +9,7 @@ import AuthLayout from '@/layouts/auth-layout';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import SettingLayout from '../setting-layout';
 
-export default function UpdateAccount({
-    mustVerifyEmail,
-    status,
-}: {
-    mustVerifyEmail: boolean;
-    status?: string;
-    className?: string;
-}) {
+export default function UpdateAccount({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
     const user = usePage<PageProps>().props.auth.user;
 
     const { data, setData, put, errors, processing } = useForm({

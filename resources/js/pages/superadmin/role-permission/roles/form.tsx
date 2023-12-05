@@ -4,12 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import { PageSettingsType } from '@/types/page-settings';
+import { Role } from '@/types/roles-data';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import RolePermissionLayout from '../role-permission-layout';
 import RoleLayout from './role-layout';
 
-export default function RolesForm({ role, page_settings }: any) {
+export default function RolesForm({ role, page_settings }: { role: Role; page_settings: PageSettingsType }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: role.name ?? '',
         guard_name: page_settings.url === route('roles.store') ? '' : role.guard_name,

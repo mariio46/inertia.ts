@@ -1,5 +1,5 @@
-import { PropsWithChildren } from 'react';
 import { Menubar, MenubarContent, MenubarHeader, MenubarLink } from '@/components/menu-bar';
+import { PropsWithChildren } from 'react';
 
 export default function PermissionLayout({ children }: PropsWithChildren) {
     return (

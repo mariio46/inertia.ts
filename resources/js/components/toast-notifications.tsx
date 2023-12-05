@@ -2,10 +2,10 @@ import { usePage } from '@inertiajs/react';
 import { useEffect } from 'react';
 import { Toaster } from './ui/toaster';
 import { useToast } from './ui/use-toast';
-import { FlashProps } from '@/types';
+import { SessionFlash } from '@/types/session-flash';
 
 export default function ToastNotifications() {
-    const { session_flash } = usePage<FlashProps>().props;
+    const { session_flash } = usePage<SessionFlash>().props;
     const { toast } = useToast();
     useEffect(() => {
         if (session_flash && session_flash.message) {

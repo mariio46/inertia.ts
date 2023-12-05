@@ -4,13 +4,19 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import { PageSettingsType } from '@/types/page-settings';
+import { Permission } from '@/types/permissions-data';
 import { useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import RolePermissionLayout from '../role-permission-layout';
 import PermissionLayout from './permission-layout';
 
-export default function PermissionForm({ permission, page_settings }: any) {
-    // console.log(permission);
+type PermissionFormType = {
+    permission: Permission;
+    page_settings: PageSettingsType;
+};
+
+export default function PermissionForm({ permission, page_settings }: PermissionFormType) {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: permission.name ?? '',
         guard_name: page_settings.url === route('permissions.store') ? '' : permission.guard_name,
@@ -24,6 +30,7 @@ export default function PermissionForm({ permission, page_settings }: any) {
             onSuccess: () => reset(),
         });
     };
+
     return (
         <Card className='max-w-xl'>
             <CardHeader>

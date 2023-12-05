@@ -1,22 +1,8 @@
 import { Button } from '@/components/ui/button';
+import { MetaLinks } from '@/types/meta-links';
 import { Link } from '@inertiajs/react';
 
-export default function Pagination({
-    meta,
-    links,
-}: {
-    meta: {
-        from: number | null;
-        to: number | null;
-        total: number | null;
-    };
-    links: {
-        first: string;
-        last: string;
-        prev: string | null;
-        next: string | null;
-    };
-}) {
+export default function Pagination({ meta, links }: MetaLinks) {
     return (
         <div className='flex w-full items-center justify-between'>
             <div>

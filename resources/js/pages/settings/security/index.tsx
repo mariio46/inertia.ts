@@ -10,7 +10,7 @@ import SettingLayout from '../setting-layout';
 import { Icon } from '@/components/icons';
 
 export default function UpdatePassword() {
-    const [visible, setVisible] = useState('password');
+    const [visible, setVisible] = useState<string>('password');
     const passwordInput = useRef<HTMLInputElement>();
     const currentPasswordInput = useRef<HTMLInputElement>();
 

@@ -1,19 +1,39 @@
-import AuthLayout from '@/layouts/auth-layout';
-import RolePermissionLayout from '../role-permission-layout';
-import AssignmentLayout from './assignment-layout';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FormEventHandler } from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
-import { useForm } from '@inertiajs/react';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { IconCheck, IconSelector } from '@tabler/icons-react';
 import InputError from '@/components/input-error';
 import SelectMultiples from '@/components/select-multiples';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
+import { Label } from '@/components/ui/label';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import AuthLayout from '@/layouts/auth-layout';
 import { cn } from '@/lib/utils';
+import { PageSettingsType } from '@/types/page-settings';
+import { useForm } from '@inertiajs/react';
+import { IconCheck, IconSelector } from '@tabler/icons-react';
+import { FormEventHandler } from 'react';
+import RolePermissionLayout from '../role-permission-layout';
+import AssignmentLayout from './assignment-layout';
 
-export default function PermissionsForm({ role, permission, roles, permissions, page_settings }: any) {
+type PermissionAssignmentType = {
+    label: string;
+    value: string[] | string;
+};
+
+type RoleAssignmentType = {
+    id: number;
+    label: string;
+    value: string;
+};
+
+interface PermissionFormType {
+    role: RoleAssignmentType;
+    permission: PermissionAssignmentType;
+    roles: RoleAssignmentType[];
+    permissions: PermissionAssignmentType[];
+    page_settings: PageSettingsType;
+}
+
+export default function PermissionsForm({ role, permission, roles, permissions, page_settings }: PermissionFormType) {
     const { data, setData, post, errors, processing, reset } = useForm({
         role: role ? role.id : '',
         permissions: permission ? permission.value : [],

@@ -9,14 +9,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Role } from '@/types/roles-data';
 import { Link, useForm } from '@inertiajs/react';
+import { useState } from 'react';
 
-export function RoleTableOption({ role, setOpenDialog }: any) {
+export function RoleTableOption({ role }: { role: Role }) {
+    const [openAlertDialog, setOpenAlertDialog] = useState(false);
     const { delete: destroy, processing } = useForm();
-    function deleteRole(role: any) {
+    function deleteRole(role: Role) {
         destroy(route('roles.delete', [role]), {
             preserveScroll: true,
-            onFinish: () => setOpenDialog(false),
+            onFinish: () => setOpenAlertDialog(false),
         });
     }
     return (
@@ -36,6 +39,8 @@ export function RoleTableOption({ role, setOpenDialog }: any) {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownDialog
+                    openAlertDialog={openAlertDialog}
+                    setOpenAlertDialog={setOpenAlertDialog}
                     title='Are you absolutely sure?'
                     trigger_text='Delete'
                     description=' This action cannot be undone. This will permanently delete the role and remove the data from our

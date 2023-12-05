@@ -23,6 +23,8 @@ interface Props {
     submit_text?: string;
     processing?: boolean;
     action: () => void;
+    openAlertDialog: boolean;
+    setOpenAlertDialog: (open: boolean) => void;
     icon: keyof typeof icons;
 }
 
@@ -36,30 +38,36 @@ export function DropdownDialog({
     cancel_text = 'Cancel',
     submit_text = 'Continue',
     action,
+    openAlertDialog,
+    setOpenAlertDialog,
 }: Props) {
     return (
-        <AlertDialog>
-            <AlertDialogTrigger asChild>
-                <DropdownMenuItem onSelect={(event) => event.preventDefault()}>
-                    <Icon className='mr-2' name={icon} />
-                    {trigger_text}
-                </DropdownMenuItem>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle>{title}</AlertDialogTitle>
-                    <AlertDialogDescription>{description}</AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>{cancel_text}</AlertDialogCancel>
-                    <AlertDialogAction
-                        disabled={processing}
-                        onClick={action}
-                        className={buttonVariants({ variant: variants })}>
-                        {submit_text}
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+        <>
+            <DropdownMenuItem
+                onSelect={(event) => {
+                    event.preventDefault();
+                    setOpenAlertDialog(true);
+                }}>
+                <Icon className='mr-2' name={icon} />
+                {trigger_text}
+            </DropdownMenuItem>
+            <AlertDialog open={openAlertDialog} onOpenChange={setOpenAlertDialog}>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>{title}</AlertDialogTitle>
+                        <AlertDialogDescription>{description}</AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>{cancel_text}</AlertDialogCancel>
+                        <AlertDialogAction
+                            disabled={processing}
+                            onClick={action}
+                            className={buttonVariants({ variant: variants })}>
+                            {submit_text}
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </>
     );
 }

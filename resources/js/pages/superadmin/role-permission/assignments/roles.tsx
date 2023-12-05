@@ -8,15 +8,10 @@ import { Link, usePage } from '@inertiajs/react';
 import RolePermissionLayout from '../role-permission-layout';
 import AssignmentLayout from './assignment-layout';
 import { RoleOption } from './partials/roles-option';
-
-interface UserItemType {
-    id: number;
-    name: string;
-    roles: string;
-}
+import { DataRoleAssignments, UserRoleAssignment } from '@/types/assignments-data';
 
 export default function Roles() {
-    const { data: users, meta, links } = usePage<any>().props.users;
+    const { data: users, meta, links } = usePage<DataRoleAssignments>().props.users;
     return (
         <Card>
             <CardHeader>
@@ -42,7 +37,7 @@ export default function Roles() {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {users.map((user: UserItemType, i: number) => (
+                        {users.map((user: UserRoleAssignment, i: number) => (
                             <TableRow key={user.id}>
                                 <TableCell className='font-medium'>{meta.from + i}</TableCell>
                                 <TableCell>{user.name}</TableCell>
