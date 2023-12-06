@@ -46,14 +46,16 @@ class AssignmentRoleController extends Controller
 
     public function edit(User $user)
     {
+        $user_role = $user->roles()->pluck('name');
+
         return inertia('superadmin/role-permission/assignments/roles-form', [
             'user' => [
                 'value' => $user->username,
                 'label' => $user->name,
             ],
             'role' => [
-                'value' => $user->roles()->pluck('name'),
-                'label' => ucwords($user->roles()->pluck('name')),
+                'value' => $user_role,
+                'label' => ucwords($user_role),
             ],
             'users' => collect(User::query()->select('name', 'username')->get())->map(fn ($user) => [
                 'value' => $user->username,

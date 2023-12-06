@@ -1,4 +1,5 @@
 import InputError from '@/components/input-error';
+import MultipleSelect from '@/components/multiple-select';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
@@ -8,7 +9,7 @@ import AuthLayout from '@/layouts/auth-layout';
 import { cn } from '@/lib/utils';
 import { PageSettingsType } from '@/types/page-settings';
 import { useForm } from '@inertiajs/react';
-import { IconCheck, IconSelector, IconX } from '@tabler/icons-react';
+import { IconCheck, IconSelector } from '@tabler/icons-react';
 import { FormEventHandler } from 'react';
 import RolePermissionLayout from '../role-permission-layout';
 import AssignmentLayout from './assignment-layout';
@@ -98,8 +99,16 @@ export default function PermissionsForm({ role, permission, roles, permissions, 
                         <Label htmlFor='permissions' className='mb-2.5 block'>
                             Permissions
                         </Label>
+                        <MultipleSelect
+                            collections={permissions}
+                            // @ts-ignore
+                            data={data.permissions}
+                            // @ts-ignore
+                            setData={(e: any) => setData('permissions', e)}
+                            label='Permissions'
+                        />
 
-                        <Popover>
+                        {/* <Popover>
                             <PopoverTrigger asChild>
                                 <Button variant='outline' role='combobox' className='w-full justify-between'>
                                     Permissions Selected : {data.permissions?.length}
@@ -150,7 +159,7 @@ export default function PermissionsForm({ role, permission, roles, permissions, 
                             </PopoverContent>
                             {data.permissions?.length ? (
                                 <small className='mt-2 flex flex-wrap items-center gap-1 text-xs'>
-                                    {/*  @ts-ignore */}
+                                    {/*  @ts-ignore
                                     {data.permissions?.map((item, i: number) => (
                                         <div
                                             key={i}
@@ -176,7 +185,7 @@ export default function PermissionsForm({ role, permission, roles, permissions, 
                                     ))}
                                 </small>
                             ) : null}
-                        </Popover>
+                        </Popover> */}
                         <InputError message={errors.permissions} className='mt-0' />
                     </div>
                     <Button

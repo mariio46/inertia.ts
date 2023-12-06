@@ -1,108 +1,87 @@
-import { Badge } from '@/components/ui/badge';
-import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
-import { IconX } from '@tabler/icons-react';
-import { Command as CommandPrimitive } from 'cmdk';
-import { useCallback, useRef, useState } from 'react';
+import { cn } from '@/lib/utils';
+import { Icon } from './icons';
+import { Button } from './ui/button';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from './ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 
-// type Framework = Record<'value' | 'label', string>;
-type Collection = {
+type CollectionType = {
     value: string;
     label: string;
 };
 
-export function FancyMultiSelect({ collections }: { collections: Collection[] }) {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [open, setOpen] = useState(false);
-    const [selected, setSelected] = useState<Collection[]>([]);
-    const [inputValue, setInputValue] = useState('');
+interface MultipleSelectProps {
+    collections: CollectionType[];
+    data: string[];
+    setData: () => void;
+    label?: string;
+}
 
-    const handleUnselect = useCallback((framework: Collection) => {
-        setSelected((prev) => prev.filter((s) => s.value !== framework.value));
-    }, []);
-
-    const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
-        const input = inputRef.current;
-        if (input) {
-            if (e.key === 'Delete' || e.key === 'Backspace') {
-                if (input.value === '') {
-                    setSelected((prev) => {
-                        const newSelected = [...prev];
-                        newSelected.pop();
-                        return newSelected;
-                    });
-                }
-            }
-            // This is not a default behaviour of the <input /> field
-            if (e.key === 'Escape') {
-                input.blur();
-            }
-        }
-    }, []);
-
-    const selectables = collections.filter((item) => !selected.includes(item));
-
+export default function MultipleSelect({ collections, data, setData, label = 'Data' }: MultipleSelectProps) {
     return (
-        <Command onKeyDown={handleKeyDown} className='overflow-visible bg-transparent'>
-            <div className='group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2'>
-                <div className='flex flex-wrap gap-1'>
-                    {selected.map((item) => {
-                        return (
-                            <Badge key={item.value} variant='secondary'>
-                                {item.label}
-                                <button
-                                    className='ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2'
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') {
-                                            handleUnselect(item);
-                                        }
-                                    }}
-                                    onMouseDown={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                    }}
-                                    onClick={() => handleUnselect(item)}>
-                                    <IconX className='h-3 w-3 text-muted-foreground hover:text-foreground' />
-                                </button>
-                            </Badge>
-                        );
-                    })}
-                    {/* Avoid having the "Search" Icon */}
-                    <CommandPrimitive.Input
-                        ref={inputRef}
-                        value={inputValue}
-                        onValueChange={setInputValue}
-                        onBlur={() => setOpen(false)}
-                        onFocus={() => setOpen(true)}
-                        placeholder='Select frameworks...'
-                        className='ml-2 flex-1 bg-transparent outline-none placeholder:text-muted-foreground'
-                    />
-                </div>
-            </div>
-            <div className='relative mt-2'>
-                {open && selectables.length > 0 ? (
-                    <div className='absolute bottom-14 right-0 z-10 w-52 rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in'>
-                        <CommandGroup className='simple-scrollbar h-auto w-52 overflow-y-auto'>
-                            {selectables.map((item) => {
-                                return (
-                                    <CommandItem
-                                        key={item.value}
-                                        onMouseDown={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                        }}
-                                        onSelect={(e) => {
-                                            setInputValue('');
-                                            setSelected((prev) => [...prev, item]);
-                                        }}
-                                        className={'cursor-pointer'}>
-                                        {item.label}
-                                    </CommandItem>
-                                );
-                            })}
-                        </CommandGroup>
-                    </div>
-                ) : null}
-            </div>
-        </Command>
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button variant='outline' role='combobox' className='w-full justify-between'>
+                    {label} Selected : {data?.length}
+                    <Icon name='IconSelector' className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent align='end' className='w-full p-0'>
+                <Command>
+                    <CommandInput placeholder={`Search ${label}...`} name='roles' id='roles' className='h-9' />
+                    <CommandEmpty>No {label} found...</CommandEmpty>
+                    <CommandGroup className='simple-scrollbar h-52 overflow-y-auto'>
+                        {collections.map((item: any, i: number) => (
+                            <CommandItem
+                                key={i}
+                                onSelect={() => {
+                                    // @ts-ignore
+                                    const isSelected = data.includes(item.value);
+                                    if (isSelected) {
+                                        setData(
+                                            // @ts-ignore
+                                            data.filter((id) => id !== item.value),
+                                        );
+                                    } else {
+                                        // @ts-ignore
+                                        setData([...data, item.value]);
+                                    }
+                                }}>
+                                <div className='flex items-center'>{item.label}</div>
+                                <Icon
+                                    name='IconCheck'
+                                    className={cn(
+                                        'ml-auto h-4 w-4',
+                                        // @ts-ignore
+                                        data.includes(item.value) ? 'opacity-100' : 'opacity-0',
+                                    )}
+                                />
+                            </CommandItem>
+                        ))}
+                    </CommandGroup>
+                </Command>
+            </PopoverContent>
+            {data?.length ? (
+                <small className='mt-2 flex flex-wrap items-center gap-1 text-xs'>
+                    {/*  @ts-ignore */}
+                    {data?.map((item, i: number) => (
+                        <div key={i} className='group flex select-none overflow-hidden rounded border bg-background'>
+                            <span className='px-2 py-1 font-medium text-foreground'>{item}</span>
+                            <button
+                                value={item}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setData(
+                                        // @ts-ignore
+                                        data?.filter((item) => item !== e.currentTarget.value),
+                                    );
+                                }}
+                                className='px-2 py-1 font-bold text-muted-foreground hover:bg-accent focus:outline-none group-hover:bg-accent group-hover:text-foreground'>
+                                <Icon name='IconX' className='h-3 w-3' />
+                            </button>
+                        </div>
+                    ))}
+                </small>
+            ) : null}
+        </Popover>
     );
 }

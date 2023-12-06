@@ -47,6 +47,8 @@ class AssignmentPermissionController extends Controller
 
     public function edit(Role $role): Response
     {
+        $permission_name = $role->permissions()->pluck('name');
+
         return inertia('superadmin/role-permission/assignments/permissions-form', [
             'role' => [
                 'id' => $role->id,
@@ -54,8 +56,8 @@ class AssignmentPermissionController extends Controller
                 'label' => ucwords($role->name),
             ],
             'permission' => [
-                'value' => $role->permissions()->pluck('name'),
-                'label' => ucwords($role->permissions()->pluck('name')),
+                'value' => $permission_name,
+                'label' => ucwords($permission_name),
             ],
             'roles' => collect(Role::query()->select('id', 'name')->oldest()->get())->map(fn ($role) => [
                 'id' => $role->id,
