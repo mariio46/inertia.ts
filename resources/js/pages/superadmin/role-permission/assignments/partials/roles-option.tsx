@@ -24,7 +24,7 @@ export function RoleOption({ user }: { user: UserRoleAssignment }) {
     }
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger asChild>
                 <Button variant={'outline'} size={'icon'} className='h-5'>
                     <Icon name='IconDots' className='stroke-[1.2]' />
                 </Button>

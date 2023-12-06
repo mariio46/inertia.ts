@@ -4,11 +4,12 @@ import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AuthLayout from '@/layouts/auth-layout';
+import { cn } from '@/lib/utils';
+import { DataRoleAssignments } from '@/types/assignments-data';
 import { Link, usePage } from '@inertiajs/react';
 import RolePermissionLayout from '../role-permission-layout';
 import AssignmentLayout from './assignment-layout';
 import { RoleOption } from './partials/roles-option';
-import { DataRoleAssignments, UserRoleAssignment } from '@/types/assignments-data';
 
 export default function Roles() {
     const { data: users, meta, links } = usePage<DataRoleAssignments>().props.users;
@@ -31,20 +32,21 @@ export default function Roles() {
                     <TableHeader>
                         <TableRow>
                             <TableHead className='w-[10px]'>#</TableHead>
-                            <TableHead>Name</TableHead>
+                            <TableHead className='w-[20%]'>Name</TableHead>
                             <TableHead>Roles</TableHead>
                             <TableHead />
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {users.map((user: UserRoleAssignment, i: number) => (
+                        {users.map((user, i: number) => (
                             <TableRow key={user.id}>
                                 <TableCell className='font-medium'>{meta.from + i}</TableCell>
                                 <TableCell>{user.name}</TableCell>
                                 <TableCell
-                                    className={
-                                        user.roles === 'Super Admin' ? 'animate-pulse font-medium text-green-500' : ''
-                                    }>
+                                    className={cn(
+                                        user.roles === 'Super Admin' ? 'animate-pulse font-medium text-green-500' : '',
+                                        'w-full',
+                                    )}>
                                     {user.roles}
                                 </TableCell>
                                 <TableCell>
